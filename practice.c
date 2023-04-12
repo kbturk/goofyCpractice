@@ -1,13 +1,14 @@
 #include <stdio.h>
 
 int main() {
-    int c;
-    c = getchar();
-    while (c !=EOF) {
-        putchar(c);
-        c = getchar();
+    long nc, nl, c;
+    nc = 0;
+    nl = 0;
+    while ((c = getchar()) != EOF) {
+        ++nc;
+        if (c == '\n')
+            ++nl;
     }
-    printf("end of line value: %i\n",c);
-
+    printf("program char: %ld newline chars: %ld\n", nc, nl);
     return 0;
 }
