@@ -1,39 +1,25 @@
 #include <stdio.h>
-#include <stdbool.h>
 
+/* count digits, white space, others */
 int main() {
-    /*variables to count blanks, tabs, and newlines*/
-    int c, b,t,nl;
-    b = t = nl = 0;
-    /*replace long blanks*/
-    bool written;
-    written = false;
-    /*replace tab with \t, backspace by \b, and backslash by \\*/
+    int c, i, nwhite, nother;
+    int ndigit[10];
 
-    while ((c = getchar()) != EOF) {
-        if (c == '\b') {
-            ++b;
-            printf("\\b");
-            written = true;
-        } else if (c == '\t') {
-            ++t;
-            printf("\\t");
-            written = true;
-        } else if (c == '\n') {
-            ++nl;
-        } else if (c == '\\') {
-            printf("\\\\");
-            written = true;
-        } else if (c == ' ') {
-            if (!written) {
-                putchar(c);
-            }
-            written = true;
-        } else {
-            written = false;
-        }
-        if (!written) putchar(c);
-    }
-    printf("backspace count: %d, tab count: %d, newline count: %d", b, t, nl);
+    nwhite = nother = 0;
+    for (i = 0; i < 10; ++i)
+        ndigit[i] = 0;
+
+    while ((c = getchar()) != EOF)
+        if (c >= '0' && c <= '9') {
+            ++ndigit[c-'0'];
+        } else if (c == ' ' || c =='\n' || c == '\t') {
+            ++nwhite;
+        } else ++nother;
+
+    printf("digits =");
+    for (i = 0; i < 10; ++i)
+        printf(" %d", ndigit[i]);
+    printf(", white space: %d, other: %d\n",
+            nwhite, nother);
     return 0;
 }
