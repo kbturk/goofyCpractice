@@ -5,6 +5,9 @@ I'll be reusing several c files and just using git to track past code.
 
 ## Progress
 Chapter 1 ✅
+
 Chapter 2 🟡
+
 Chapter 3
+
 Chapter 4
