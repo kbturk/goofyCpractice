@@ -1,21 +1,37 @@
 #include <stdio.h>
-#include <limits.h>
-#include <float.h>
 
+#define MAXLINE 1000
 
-/*determine the ranges of char, short, int, and long unsigned and signed by printing appropriate values from
- * standard headers and by direct computation.*/
+int getline(char line[], int maxline);
+int strlen2(char s[]);
+
 int main() {
-    //char
-    printf("min char: %d\n", CHAR_MIN);
-    printf("max char: %d\n", CHAR_MAX);
-    //short
-    printf("min short: %d\n", SHRT_MIN);
-    printf("max shrt: %d\n", SHRT_MAX);
-    //int
-    printf("min int: %d\n", INT_MIN);
-    printf("max int: %d\n", INT_MAX);
-    printf("max uint:%u\n", UINT_MAX);
+    int len, max;
+    char line[MAXLINE];
 
+    while ((len = getline(line, MAXLINE)) > 0)
+        printf("len: %d line:%s\n", len, line);
     return 0;
+}
+
+int getline(char s[], int lim) {
+    int c, i;
+
+    for (i=0; (i < lim - 1) * ((c=getchar()) != '\n') * (c != EOF); ++i)
+        s[i] = c;
+    if (c == '\n') {
+        s[i] = c;
+        ++i;
+    }
+
+    s[i] = '\0';
+    return i;
+}
+
+int strlen2(char s[]) {
+    int i = 0;
+
+    while (s[i] != '\0')
+        ++i;
+    return i;
 }
