@@ -9,7 +9,6 @@
  * plots a histogram of word length
  */
 
-void histogram(int l[]); /*plots histogram horizontal first*/
 void hhistogram(int l[]); /*plots histogram horizontal first*/
 int max(int l[], int i);
 int truncate(int l[]);
@@ -59,6 +58,14 @@ void hhistogram(int h[]) {
         }
         printf("\n");
     }
+    for (i = 0; i < trun; ++i) {
+        printf("%3d", h[i]);
+    }
+    printf("\n");
+    for (i = 0; i < trun; ++i) {
+        printf("%3s", "-");
+    }
+    printf("\n");
     for (i = 0; i < trun; ++i) {
         printf("%3d", i+1);
     }
