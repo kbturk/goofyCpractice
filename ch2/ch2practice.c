@@ -7,6 +7,8 @@ int getline(char line[], int maxline);
 int strlen2(char s[]);
 int atoi2(char s[]);
 void squeeze2(char s1[], char s2[]);
+int htoi(char s[]); //exercise 2-3 convert hexadecimal to integer 
+int pow2(int x, int y);
 
 int main() {
     int len, max, temp;
@@ -14,6 +16,7 @@ int main() {
     char s1[] = "stringy";
     char s2[] = "string";
 
+    /*
     while ((len = getline(line, MAXLINE)) > 0) {
         printf("len: %d line:%s", len, line);
     }
@@ -22,7 +25,16 @@ int main() {
     printf("squeeze2 check:\n");
 
     squeeze2(s1,s2);
-    printf("stringy vs string: %s",s1);
+    printf("stringy vs string: %s\n",s1);
+*/
+    printf("is %d == %d\n", 4, pow2(2,2));
+    printf("is %d == %d\n", 16, pow2(4,2));
+    printf("is %d == %d\n", 4096, pow2(16,3));
+    printf("%s -> %d\n", "3B", htoi("3B"));
+    printf("%s -> %d\n", "E7A9", htoi("E7A9"));
+    printf("%s -> %d\n", "400", htoi("400"));
+    printf("%s -> %d\n", "0x3B", htoi("0x3B"));
+    printf("%s -> %d\n", "D0", htoi("D0"));
     return 0;
 }
 
@@ -40,6 +52,7 @@ int getline(char s[], int lim) {
     return i;
 }
 
+//return string length
 int strlen2(char s[]) {
     int i = 0;
 
@@ -75,4 +88,46 @@ void squeeze2(char s1[], char s2[]) {
         }
     }
     s1[j] = '\0';
+}
+
+int pow2(int x, int y) {
+    int i;
+    int n = 1;
+
+    for (i = 0; i < y; ++i) {
+        n *= x;
+    }
+    return n;
+}
+
+//convert hex into an int
+int htoi(char s[]) {
+    int i = 0;
+    int len = 0;
+    int num = 0;
+    //include the optional 0x or 0X. the allowable digits are
+    //0-9, a-f, and A-F
+
+    if ((len = strlen2(s))  == 0) return 0;
+    if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) i = 2;
+
+    printf("testing: %s\n", s);
+    
+    for (i; i < len; ++i) {
+        if (s[i] >= 'a' && s[i] <= 'f') {
+            num += (10 + s[i] - 'a') * pow2(16,(len - i - 1));
+        }
+        else if (s[i] >= 'A' && s[i] <= 'F') {
+            num += (10 + s[i] - 'A') * pow2(16,(len - i - 1));
+        }
+        else if (s[i] >= '0' && s[i] <= '9') {
+            num += (s[i] - '0') * pow2(16,(len - i - 1));
+        }
+        else {
+            printf("invalid character: %c/n", s[i]);
+            return 0;
+        }
+    }
+
+    return num;
 }
