@@ -9,13 +9,20 @@ int atoi2(char s[]);
 void squeeze2(char s1[], char s2[]);
 int htoi(char s[]); //exercise 2-3 convert hexadecimal to integer 
 int pow2(int x, int y);
+void shift2(char s[]);
+void lower2(char from[], char to[]);
 
 int main() {
     int len, max, temp;
     char line[MAXLINE];
     char s1[] = "stringy";
     char s2[] = "string";
+    char f[] = "HELLO MOM";
+    char t[MAXLINE];
 
+    lower2(f,t);
+    printf("test lower: %s to %s\n", f, t);
+    printf("bitwise stuff: %d\n", 1234177 & 0177);
     /*
     while ((len = getline(line, MAXLINE)) > 0) {
         printf("len: %d line:%s", len, line);
@@ -130,4 +137,12 @@ int htoi(char s[]) {
     }
 
     return num;
+}
+
+//convert all char to lowercase
+void lower2(char from[],char to[]) {
+    int i;
+
+    for (i = 0; i < strlen2(from); ++i) to[i] = (from[i] >= 'A' && from[i] <= 'Z') ? 'a' + (from[i] - 'A') : from[i];
+    to[i] = '\0';
 }
