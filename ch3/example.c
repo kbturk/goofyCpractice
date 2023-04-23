@@ -103,6 +103,44 @@ int intlen2(int v[]) {
 
 void expand(char s1[], char s2[]) {
     //write a function that expands shorthand notation like a-z, to a..z and a-b-c and a-z0-9
-    
+//This halfass handles '-' signs in front of the start character.
+    int i, j, k, sign;
+    char cfrom, citer, cend;
+    bool start;
 
+    start = false;
+    j = 0;
+    sign = 1;
+
+    if (s1[i] == '-') {
+        sign *= -1;
+        i++;
+    }
+
+    for (i; s1[i] != '\0'; i++) {
+
+        switch(s1[i]) {
+            case '-':
+                if (s1[i-1] != '-') {
+                    cfrom = s1[i-1];
+                    start = true;
+                } else sign *= -1;
+                break;
+            default:
+                if (start) {
+                    //begin copying
+                    if ((cend = s1[i]) < sign * cfrom) {
+                        printf("end %s is less than begin %s", cend, cfrom);
+                        return;
+                    }
+                    printf("begin copy...\n");
+                    printf("cfrom is: %c\n", sign * cfrom);
+                    for (j, k=0; sign * cfrom + k <= cend; j++, k++) {
+                        s2[j] = sign * cfrom + k;
+                    }
+                    start = false;
+                }
+        }
+    }
+    s2[j] = '\0';
 }
