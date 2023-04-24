@@ -39,7 +39,7 @@ int main() {
     expand("a-b-c", t5);
     printf("a-b-c: %s\n",t5);
     expand("c--d", t6);
-    printf("c---d: %s\n",t6);
+    printf("-c-d-: %s\n",t6);
 
     return 0;
 }
