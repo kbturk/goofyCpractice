@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #include "ch4fun.h"
 #define MAXLINE 1000
@@ -35,7 +36,6 @@ int strindex(char s[], char t[])
 
 //my own homebrew
 //returns an int of how many matches there were.
-//No text print right now.
 int getmatch(char t[]) {
     int i, k, c;
 
@@ -53,4 +53,64 @@ int getmatch(char t[]) {
     }
 
     return i;
+}
+
+int pow2(int base, int raise) {
+    int temp;
+    for (temp = 1; raise > 0; --raise)
+        temp *=base;
+    return temp;
+}
+
+//convert string s to double very rudamentary with no error handling
+double atof(char s[])
+{
+    double val, power, expon, sign;
+    int i, expsign, p;
+    expsign = 1;
+    expon = 1.0;
+
+    //skip white space
+    for (i = 0; isspace(s[i]); i++) 
+        ;
+    //capture sign
+    sign = (s[i] == '-') ? -1.0 : 1.0;
+
+    if (s[i] == '+' || s[i] == '-')
+        i++;
+
+    //skip white space again
+    for (i; isspace(s[i]); i++)
+        ;
+
+    //digits before a '.'
+    for (val = 0.0; isdigit(s[i]); i++)
+        val = 10.0 * val + (s[i] - '0');
+
+    //optional '.'
+    if (s[i] == '.')
+        i++;
+    for (power = 1.0; isdigit(s[i]); i++) {
+        val = 10.0 * val + (s[i] - '0');
+        power *= 10.0;
+    }
+
+    //optional exponential
+    if (s[i] == 'e' || s[i] == 'E') {
+        ++i;
+        //handle neg exp's
+        if (s[i] == '-') {
+            expsign = -1;
+            i++;
+        }
+
+        //capture p
+        for (p = 0; isdigit(s[i]); i++)
+            p = 10 * p + (s[i] - '0');
+
+        expon = pow2(10, p);
+        expon = (expsign == -1) ? (1.0/expon) : expon;
+    }
+
+    return (double)sign * val * (double)expon / power;
 }
