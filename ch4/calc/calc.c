@@ -34,13 +34,16 @@ int getop(char s[]) {
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] ='\0';
-    if (!isdigit(c) && c != '.')
-        return c; /*not a number*/
+    if (!isdigit(c) && c != '.' && c!= '-')
+        return c; /*not a pos or neg number*/
     i = 0;
     if (isdigit(c)) /*collect integer part*/
         while (isdigit(s[++i] = c = getch()))
             ;
     if (c == '.') /*collect fractional part*/
+        while (isdigit(s[++i] = c = getch()))
+            ;
+    if (c == '-')
         while (isdigit(s[++i] = c = getch()))
             ;
     s[i] = '\0';
