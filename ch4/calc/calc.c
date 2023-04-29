@@ -31,10 +31,11 @@ double pop(void) {
 int getop(char s[]) {
     int i, c;
 
+    /* skip white space */
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] ='\0';
-    if (!isdigit(c) && c != '.' && c!= '-')
+    if (!isdigit(c) && c != '.' && c!= '-' && !isletter(c))
         return c; /*not a pos or neg number*/
     i = 0;
     if (isdigit(c)) /*collect integer part*/
@@ -46,6 +47,12 @@ int getop(char s[]) {
     if (c == '-')
         while (isdigit(s[++i] = c = getch()))
             ;
+    if (isletter(c)) {
+        while (isletter(s[++i] = c = getch()))
+            ;
+        s[i] = '\0';
+        return WORD;
+    }
     s[i] = '\0';
     if (c != EOF)
         ungetch(c);
@@ -63,4 +70,43 @@ void ungetch(int c) /*push character back on input */
         printf("ungetch: exceeded BUFSIZE\n");
     else
         buf[bufp++] = c;
+}
+
+int isletter(char c) {
+    return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
+}
+
+//returns 0 or 1 if strings match
+int strcmp2(char s[], char t[]) {
+    int i, j;
+    for (i = 0; t[i] == s[i] && t[i] != '\0'; i++)
+        ;
+    for (j = 0; t[j] != '\0'; ++j)
+        ;
+    return (j == i);
+}
+
+//print the top item on the stack
+void ptop() {
+    printf("%d", val[sp]);
+    return;
+}
+
+//duplicate the top item on the stack
+void duplicate() {
+    int temp;
+    temp = val[sp];
+    push(temp);
+    printf("duplicated: %d, %d", val[sp], val[sp-1]);
+    return;
+}
+
+//swap the top two elements on the stack
+void swap() {
+    int t1, t2;
+    t1 = pop();
+    t2 = pop();
+    push(t1);
+    push(t2);
+    printf("swapped: %d, %d", val[sp], val[sp-1]);
 }

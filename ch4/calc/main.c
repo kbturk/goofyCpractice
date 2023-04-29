@@ -37,6 +37,15 @@ int main() {
             case '\n':
                 printf("\t%.8g\n", pop());
                 break;
+            case WORD:
+                if (strcmp2(s, "ptop"))
+                        printf("TODO: %s\n",s);
+                else if (strcmp2(s, "duplicate"))
+                    printf("TODO: %s\n",s);
+                else if (strcmp2(s, "swap"))
+                    printf("TODO: %s\n",s);
+                else printf("warning!! word didn't match\n");
+                break;
             default:
                 printf("error: unknown command %s\n", s);
                 break;
