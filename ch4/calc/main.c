@@ -39,11 +39,13 @@ int main() {
                 break;
             case WORD:
                 if (strcmp2(s, "ptop"))
-                        printf("TODO: %s\n",s);
+                       ptop();
                 else if (strcmp2(s, "duplicate"))
-                    printf("TODO: %s\n",s);
+                    duplicate();
                 else if (strcmp2(s, "swap"))
-                    printf("TODO: %s\n",s);
+                    swap();
+                else if (strcmp2(s, "pall"))
+                    pall();
                 else printf("warning!! word didn't match\n");
                 break;
             default:

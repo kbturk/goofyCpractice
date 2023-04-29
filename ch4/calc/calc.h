@@ -14,6 +14,7 @@ int getch(void);
 void ungetch(int);
 //exercise 4-4
 void ptop(void);
+void pall(void);
 void duplicate(void);
 void swap(void);
 

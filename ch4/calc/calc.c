@@ -4,8 +4,8 @@
 
 #include "calc.h"
 
-int sp = 0;
-double val[MAXVAL];
+int sp = 0; /* next free stack position */
+double val[MAXVAL]; /* value stack */
 char buf[BUFSIZE]; /* buffer for ungetch */
 int bufp = 0; /* next free position in buf */
 
@@ -88,16 +88,24 @@ int strcmp2(char s[], char t[]) {
 
 //print the top item on the stack
 void ptop() {
-    printf("%d", val[sp]);
+    printf("%g\n", val[sp - 1]);
     return;
+}
+
+//print the whole stack
+void pall() {
+    int i;
+    for (i = sp - 1; i >= 0; --i)
+        printf("%g,", val[i]);
+    printf("\n");
 }
 
 //duplicate the top item on the stack
 void duplicate() {
     int temp;
-    temp = val[sp];
+    temp = val[sp - 1];
     push(temp);
-    printf("duplicated: %d, %d", val[sp], val[sp-1]);
+    printf("duplicated: %g, %g\n", val[sp - 1], val[sp - 2]);
     return;
 }
 
@@ -108,5 +116,5 @@ void swap() {
     t2 = pop();
     push(t1);
     push(t2);
-    printf("swapped: %d, %d", val[sp], val[sp-1]);
+    printf("swapped: %g, %g\n", val[sp - 1], val[sp - 2]);
 }
