@@ -11,16 +11,20 @@ int bufp = 0; /* next free position in buf */
 
 /* push: push f onto value stack */
 void push(double f) {
-    if (sp < MAXVAL)
+    if (sp < MAXVAL) {
         val[sp++] = f;
+        printf("pushed %g: %g to stack\n", f, val[sp-1]);
+    }
     else
         printf("error: stack full, can't push %g\n", f);
 }
 
 /* pop: pop and return top value from stack */
 double pop(void) {
-    if (sp > 0)
+    if (sp > 0) {
+        printf("popped %g, sp is now %d from stack\n", val[sp-1], sp-1);
         return val[--sp];
+    }
     else {
         printf("error: stack empty\n");
         return 0.0;
@@ -102,7 +106,7 @@ void pall() {
 
 //duplicate the top item on the stack
 void duplicate() {
-    int temp;
+    double temp;
     temp = val[sp - 1];
     push(temp);
     printf("duplicated: %g, %g\n", val[sp - 1], val[sp - 2]);

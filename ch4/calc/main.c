@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> /* for atof() */
 #include "calc.h"
+#include <math.h>
 
 int main() {
     int type;
@@ -39,13 +40,21 @@ int main() {
                 break;
             case WORD:
                 if (strcmp2(s, "ptop"))
-                       ptop();
+                    ptop();
                 else if (strcmp2(s, "duplicate"))
                     duplicate();
                 else if (strcmp2(s, "swap"))
                     swap();
                 else if (strcmp2(s, "pall"))
                     pall();
+                else if (strcmp2(s, "sin"))
+                    push(sin(pop()));
+                else if (strcmp2(s, "exp"))
+                    push(exp(pop()));
+                else if (strcmp2(s, "pow")) {
+                    op2 = pop();
+                    push(pow(pop(),op2));
+                }
                 else printf("warning!! word didn't match\n");
                 break;
             default:
