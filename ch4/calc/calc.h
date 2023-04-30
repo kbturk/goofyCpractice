@@ -4,8 +4,11 @@
 #define MAXOP 100  /* max size of operand or operator */
 #define NUMBER '0' /* signal that a number was found */
 #define WORD '1' /* signal that a word was found */
+#define VARIABLE '2' /*signal that a variable was found */
+#define SETVAR '3' /*signal that a var followed by = was found*/
 #define MAXVAL 100
 #define BUFSIZE 100
+#define VARLENGTH 26
 
 int getop(char s[]);
 void push(double);
@@ -17,6 +20,7 @@ void ptop(void);
 void pall(void);
 void duplicate(void);
 void swap(void);
+int peek(void);
 
 //home rolled functions
 int isletter(char c); //0 or 1. I'm too lazy to import the bool lib tonight

@@ -7,8 +7,11 @@ int main() {
     int type;
     double op2;
     char s[MAXOP];
+    double varlist[VARLENGTH];
+    int address;
 
     printf("--reverse Polish calculator!--\n");
+    printf("now with variables 'a' - 'z'!\n");
     while ((type = getop(s)) != EOF) {
         switch (type) {
             case NUMBER:
@@ -55,12 +58,30 @@ int main() {
                     op2 = pop();
                     push(pow(pop(),op2));
                 }
+
                 else printf("warning!! word didn't match\n");
                 break;
+            case VARIABLE:
+                //really primative variables
+                address = s[0] - 'a';
+                if (varlist[address])
+                    push(varlist[address]);
+                else
+                    printf("%c not defined\n", address + 'a');
+                break;
+            case SETVAR:
+                address = s[0] - 'a';
+                if ((type = getop(s)) == NUMBER) {
+                    push((varlist[address] = atof(s)));
+                    printf("assigned %s to %c\n",s,address + 'a');
+                    break;
+                } else 
+                    printf("tried to assign %s to var %d, but something went wrong\n", s, address + 'a');
             default:
                 printf("error: unknown command %s\n", s);
                 break;
         }
+
     }
     return 0;
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 
 #include "calc.h"
 
@@ -13,7 +14,7 @@ int bufp = 0; /* next free position in buf */
 void push(double f) {
     if (sp < MAXVAL) {
         val[sp++] = f;
-        printf("pushed %g: %g to stack\n", f, val[sp-1]);
+        printf("pushed %g to stack\n", f);
     }
     else
         printf("error: stack full, can't push %g\n", f);
@@ -55,6 +56,18 @@ int getop(char s[]) {
         while (isletter(s[++i] = c = getch()))
             ;
         s[i] = '\0';
+        if (strlen(s) == 1 &&
+                s[0] >= 'a' &&
+                s[0] <= 'z') {
+            //peek
+            while((c = getch()) == ' ' || c == '\t')
+                ;
+            if (c == '=')
+                return SETVAR;
+            else
+                ungetch(c);
+            return VARIABLE;
+        }
         return WORD;
     }
     s[i] = '\0';
@@ -76,9 +89,21 @@ void ungetch(int c) /*push character back on input */
         buf[bufp++] = c;
 }
 
+//look at the next character on the stack
+int peek(void) {
+    int temp;
+    temp = getch();
+    while (temp == ' ' || temp == '\t')
+        temp = getch();
+    ungetch(temp);
+    return temp;
+}
+
 int isletter(char c) {
     return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
+
+/*small calc functions*/
 
 //returns 0 or 1 if strings match
 int strcmp2(char s[], char t[]) {
