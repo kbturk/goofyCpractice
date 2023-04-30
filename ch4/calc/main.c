@@ -8,8 +8,12 @@ int main() {
     double op2;
     char s[MAXOP];
     double varlist[VARLENGTH];
-    int address;
+    int address, i;
+    double last;
 
+    //This is hacky
+    for (i = 0; i < VARLENGTH; i++)
+        varlist[i] = -.00000000009;
     printf("--reverse Polish calculator!--\n");
     printf("now with variables 'a' - 'z'!\n");
     while ((type = getop(s)) != EOF) {
@@ -39,7 +43,7 @@ int main() {
                 push((double)((int)pop() % (int)op2));
                 break;
             case '\n':
-                printf("\t%.8g\n", pop());
+                printf("\t%.8g\n", (last = pop()));
                 break;
             case WORD:
                 if (strcmp2(s, "ptop"))
@@ -58,14 +62,24 @@ int main() {
                     op2 = pop();
                     push(pow(pop(),op2));
                 }
-
+                else if (strcmp2(s, "last")) {
+                    printf("last printed val: %g\n", last);
+                    push(last);
+                }
                 else printf("warning!! word didn't match\n");
                 break;
             case VARIABLE:
                 //really primative variables
                 address = s[0] - 'a';
-                if (varlist[address])
+                if (address > VARLENGTH) {
+                    printf("DANGER! s[0] exceeds VARLENGTH: %c",
+                            s[0]);
+                    break;
+                }
+                if (varlist[address] != -.00000000009) {
+                    printf("%c = ",s[0]);
                     push(varlist[address]);
+                }
                 else
                     printf("%c not defined\n", address + 'a');
                 break;
@@ -75,8 +89,10 @@ int main() {
                     push((varlist[address] = atof(s)));
                     printf("assigned %s to %c\n",s,address + 'a');
                     break;
-                } else 
-                    printf("tried to assign %s to var %d, but something went wrong\n", s, address + 'a');
+                } else
+                    //TODO: add pushing whole s back onto stack.
+                    printf("tried to assign %s to var %c, but something went wrong\n", s, address + 'a');
+                break;
             default:
                 printf("error: unknown command %s\n", s);
                 break;

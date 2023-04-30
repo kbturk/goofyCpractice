@@ -53,17 +53,23 @@ int getop(char s[]) {
         while (isdigit(s[++i] = c = getch()))
             ;
     if (isletter(c)) {
-        while (isletter(s[++i] = c = getch()))
+        while (isletter(s[++i] = c = getch()) && c !='=')
             ;
         s[i] = '\0';
         if (strlen(s) == 1 &&
                 s[0] >= 'a' &&
                 s[0] <= 'z') {
             //peek
-            while((c = getch()) == ' ' || c == '\t')
-                ;
-            if (c == '=')
+            //advance if there is white space
+            if (c == ' ' || c == '\t')
+                while((c = getch()) == ' ' || c == '\t')
+                    ;
+            //check variables
+            printf("check calc s: %s\n", s);
+            printf("check calc c: %c\n", c);
+            if (c == '=') {
                 return SETVAR;
+            }
             else
                 ungetch(c);
             return VARIABLE;
