@@ -63,7 +63,7 @@ int main() {
                     push(pow(pop(),op2));
                 }
                 else if (strcmp2(s, "last")) {
-                    printf("last printed val: %g\n", last);
+                    //printf("last printed val: %g\n", last);
                     push(last);
                 }
                 else printf("warning!! word didn't match\n");
@@ -77,7 +77,7 @@ int main() {
                     break;
                 }
                 if (varlist[address] != -.00000000009) {
-                    printf("%c = ",s[0]);
+                    //printf("%c = ",s[0]);
                     push(varlist[address]);
                 }
                 else
@@ -87,8 +87,12 @@ int main() {
                 address = s[0] - 'a';
                 if ((type = getop(s)) == NUMBER) {
                     push((varlist[address] = atof(s)));
-                    printf("assigned %s to %c\n",s,address + 'a');
-                    break;
+                    printf("%c is now: ",address + 'a');
+                } else if (type = VARIABLE) {
+                    push((varlist[address] = varlist[s[0] - 'a']));
+                    //TODO: fix these next two lines
+                //} else if (type = WORD && strcmp2(s, "last")) {
+                  //  push((varlist[address] = last));
                 } else
                     //TODO: add pushing whole s back onto stack.
                     printf("tried to assign %s to var %c, but something went wrong\n", s, address + 'a');

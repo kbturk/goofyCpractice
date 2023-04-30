@@ -14,7 +14,7 @@ int bufp = 0; /* next free position in buf */
 void push(double f) {
     if (sp < MAXVAL) {
         val[sp++] = f;
-        printf("pushed %g to stack\n", f);
+        //printf("pushed %g to stack\n", f);
     }
     else
         printf("error: stack full, can't push %g\n", f);
@@ -23,7 +23,7 @@ void push(double f) {
 /* pop: pop and return top value from stack */
 double pop(void) {
     if (sp > 0) {
-        printf("popped %g, sp is now %d from stack\n", val[sp-1], sp-1);
+        //printf("popped %g, sp is now %d from stack\n", val[sp-1], sp-1);
         return val[--sp];
     }
     else {
@@ -65,8 +65,8 @@ int getop(char s[]) {
                 while((c = getch()) == ' ' || c == '\t')
                     ;
             //check variables
-            printf("check calc s: %s\n", s);
-            printf("check calc c: %c\n", c);
+            //printf("check calc s: %s\n", s);
+            //printf("check calc c: %c\n", c);
             if (c == '=') {
                 return SETVAR;
             }
@@ -140,7 +140,7 @@ void duplicate() {
     double temp;
     temp = val[sp - 1];
     push(temp);
-    printf("duplicated: %g, %g\n", val[sp - 1], val[sp - 2]);
+    //printf("duplicated: %g, %g\n", val[sp - 1], val[sp - 2]);
     return;
 }
 
@@ -151,5 +151,5 @@ void swap() {
     t2 = pop();
     push(t1);
     push(t2);
-    printf("swapped: %g, %g\n", val[sp - 1], val[sp - 2]);
+    //printf("swapped: %g, %g\n", val[sp - 1], val[sp - 2]);
 }
