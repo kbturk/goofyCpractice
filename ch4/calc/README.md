@@ -1,7 +1,8 @@
 # Built in functions and variables
 
 This is a simple reverse Polish calculator from ch 4
-with a bunch of built in functions and variable assignments
+with a bunch of built in functions and variable assignments.
+
 Here's the master list because I'm not going to remember these in a week.
 
 ## functions
