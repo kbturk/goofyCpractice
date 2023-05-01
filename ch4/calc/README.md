@@ -13,6 +13,7 @@ Here's the master list because I'm not going to remember these in a week.
 * `sin` => sin(x) on previous item (ex: x sin)
 * `exp` => 10ex on previous item (ex: x exp)
 * `pow` => pow(x,y) on previous items (ex: x y pow)
+* `ungets` => push a word back onto the buffer. The function can handle a whole string, but set it up to just push a word for testing and practical use. (ex: x on stack, ungets sin, enter twice -> x sin) 
 
 ## variables
 * `last` => last printed value

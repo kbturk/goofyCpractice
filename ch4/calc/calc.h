@@ -22,7 +22,8 @@ void duplicate(void);
 void swap(void);
 int peek(void);
 void ungets(char s[]);
-
+int onegetch(void);
+void oneungetch(int);
 
 //home rolled functions
 int isletter(char c); //0 or 1. I'm too lazy to import the bool lib tonight
