@@ -15,12 +15,14 @@ void push(double);
 double pop(void);
 int getch(void);
 void ungetch(int);
-//exercise 4-4
+//exercise 4-4 to 4-10
 void ptop(void);
 void pall(void);
 void duplicate(void);
 void swap(void);
 int peek(void);
+void ungets(char s[]);
+
 
 //home rolled functions
 int isletter(char c); //0 or 1. I'm too lazy to import the bool lib tonight

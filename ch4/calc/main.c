@@ -66,6 +66,12 @@ int main() {
                     //printf("last printed val: %g\n", last);
                     push(last);
                 }
+                else if (strcmp2(s, "ungets")) {
+                    if ((type = getop(s)) == WORD) {
+                        ungets(s);
+                    } else
+                        printf("tried to push %s back into memory but something went wrong.", s);
+                }
                 else printf("warning!! word didn't match\n");
                 break;
             case VARIABLE:
