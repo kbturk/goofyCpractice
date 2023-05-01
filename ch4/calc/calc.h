@@ -6,8 +6,6 @@
 #define WORD '1' /* signal that a word was found */
 #define VARIABLE '2' /*signal that a variable was found */
 #define SETVAR '3' /*signal that a var followed by = was found*/
-#define MAXVAL 100
-#define BUFSIZE 100
 #define VARLENGTH 26
 
 int getop(char s[]);
