@@ -2,6 +2,9 @@
 #include <string.h>
 #define MAXSTRING 1000
 
+#define SWAP(t,x,y) { t temp; \
+    temp = x; x = y; y = temp;}
+
 static int i = 0; /*keep track of next position in s*/
 
 void itoa(int, char s[]); /*use recursion to map an int to a string*/
@@ -22,6 +25,14 @@ int main() {
     printf("reverse test: %s\n", s);
     reverse(s, 0, strlen(s) - 1);
     printf("reverse test: %s\n", s);
+
+    char l = 'l';
+    char r = 'r';
+
+    SWAP(char, l, r);
+    printf("%c, %c\n", l, r);
+    SWAP(char, l, r);
+    printf("%c, %c\n", l, r);
     return 0;
 }
 
