@@ -34,6 +34,13 @@ int main() {
     char s2[SIZE] = "baked potato";
     char t2[SIZE] = "potato";
 
+    //var ex 5-5
+    char s3[SIZE] = "HELLOOOOO ";
+    char t3[SIZE] = "hello";
+    char s4[SIZE] = "WORLD";
+    char t4[SIZE] = "world";
+    char s5[SIZE] = "yessum";
+    char t5[SIZE] = "yesterday";
 
     //5-1
     ip = &x;
@@ -66,12 +73,20 @@ int main() {
     strcat2(s,t);
     printf("%s\n",s);
 
-    //5-4
+    //exercise 5-4
     strendWrap(s1,t1);
     strendWrap(s2,t1);
     strendWrap(s2,t2);
 
-    //5-3
+    //exercise 5-5
+    printf("%s, %s\n",s3,t3); 
+    strncpy2(s3, t3, 5);
+    printf("%s, %s\n",s3,t3); 
+    strncat2(t3, s4, 5);
+    printf("s4: %s,t3: %s\n",t3,s4); 
+    printf("%s, %s\n",s5,t5); 
+    strncmp2(s5, t5, 3);
+
     //exercise 5-1: in getint, if + or - is not followed by a digit,
     //put it back on the stack.
     /*

@@ -2,9 +2,7 @@
 #include "point.h"
 
 //5-5 exercises:
-//5-5 write a version of the library functions strncpy, strncat, and strncmp using s,t,n (see appendix B)
 //5-6 eh.... rewrite getline, atoi, itoa, reverse, strindex and getop
-//note: was on page 107
 
 //strcopy: copy t to s; pointer version from 5-5
 void strcpy2(char *s, char *t) {
@@ -30,7 +28,8 @@ int strend(char *s,char *t) {
         t++;
     while (*s-- == *t-- && t >= temp)//reverse check
         ;
-    if (temp == t + 1) return 1;
+    if (temp == t + 1)
+        return 1;
     else return 0;
 }
 
@@ -41,3 +40,30 @@ void strendWrap(char *s, char *t) {
         printf("'%s' is NOT at the end of '%s'\n", t, s);
 }
 
+//5-5 write a version of the library functions strncpy, strncat, and strncmp using s,t,n (see appendix B)
+void strncpy2(char *s, char *t, int n) {
+    int i;
+    for (i = 0; i <n && (*s++ = *t++); i++)
+        ;
+}
+
+void strncat2(char *s, char *t, int n) {
+    int i;
+    while (*s++)
+        ;
+    s--;
+    for (i = 0; i < n && (*s++ = *t++); i++)
+        ;
+}
+
+int strncmp2(char *s, char *t, int n) {
+    int i = 0;
+    while(*s++ == *t++ && i++ <n)
+        ;
+    if (n == i) {
+        printf("%s and %s match %d char", (s - n -1),(t - n - 1),n);
+        return 1;
+    }
+        printf("%s and %s DON'T match %d char", (s-i-1),(t-i-1),n);
+    return 0;
+}
