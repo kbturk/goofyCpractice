@@ -22,7 +22,6 @@ int main(int argc, char *argv[]) {
     double op2;
     char s[MAXVAL];
 
-    printf("commandline reverse Polish Calculator!\n");
     while (--argc > 0) {
         ++argv;
 
