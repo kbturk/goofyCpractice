@@ -7,7 +7,7 @@
 #define MAXVAL 100 //max depth of push/pop stack
 #define NUMBER '0' //signal that a number was found
 
-int getop(char *argv, char *s);
+int getop(char *argv);
 void push(double);
 double pop(void);
 int getch(void);
@@ -25,11 +25,9 @@ int main(int argc, char *argv[]) {
     printf("commandline reverse Polish Calculator!\n");
     while (--argc > 0) {
         ++argv;
-        printf("argc: %d, argv is %s\n",argc, *argv);
 
-        type = getop(*argv, s);
+        type = getop(*argv);
 
-        printf("after getop: %s vs %s\n",*argv, s);
         switch (type) {
             case NUMBER:
                 push(atof(*argv));
@@ -81,7 +79,7 @@ double pop(void) {
 }
 
 //getop :get the next operator or numeric operand
-int getop(char *string, char *s)
+int getop(char *string)
 {
     int c, l;
     char *start;
@@ -91,9 +89,8 @@ int getop(char *string, char *s)
 
     if (l <= 0)
         printf("ERROR: Problem in strlen: %d\n", l);
-    else printf("%s is %d long\n",string, l);
 
-    *s++ = c = *string++;
+    c = *string++;
 
     //this handles doubles instead of ints
     if (!isdigit(c) && c != '.')
@@ -101,12 +98,10 @@ int getop(char *string, char *s)
 
     //collect number
     if (isdigit(c))
-        while(isdigit(*s++ = c = *string++) && string - start < l)
+        while(isdigit(c = *string++) && string - start < l)
             ;
     if (c == '.')
-        while(isdigit(*s++ = c = *string++) && string - start < l)
+        while(isdigit(c = *string++) && string - start < l)
             ;
-    *s = '\0';
-    printf("s is %s\n",s);
     return NUMBER;
 }
