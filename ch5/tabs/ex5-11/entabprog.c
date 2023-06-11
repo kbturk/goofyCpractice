@@ -3,7 +3,7 @@
 #define MAXVAL 1000
 #define TABSTOP 8
 
-void entab();
+void entab(int *l, char *t);
 
 void main(int argc, char *argv[]) {
     int tab[MAXVAL]; //list of tabs
@@ -14,42 +14,37 @@ void main(int argc, char *argv[]) {
     while (--argc) {
         
         ia = (int)**++argv - '0';
-        printf("ia: %d\n", ia);
         if (ia < 0) {
             printf("Error: tab stop %d less than 0\n", ia);
             return;
         }
         *tp++ = ia;
         
-        printf("argc:%d argv:%s\n",argc,*argv);
     }
 
     *tp = -999;
-    for (tp = &tab[0]; *tp != -999; tp++)
-        printf("tab: %d, ",*tp);
-    printf("\n");
-    detab(&tab[0], &t[0]);
-    printf("t:\n%s\n", t);
-
+    entab(&tab[0], &t[0]);
+    printf("entab:\n%s\n", t);
 
 }
 
-void entab() {
-    int nspace, c, ntab;
+void entab(int *tab, char *t) {
+    int nspace = 0, c, ntab = 0;
     char *tempt = t;
-    char *temps = s;
-    nspace = 0;
-    ntab = 0;
+    int tab_stop;
+    tab_stop = (*tab == -999) ? TABSTOP: *tab++;
 
-    while((c = *s++) != '\0' && (t - tempt) < MAXVAL) {
-        while (c == ' ' && c != '\0')
+    while((c = getchar()) != EOF && (t-tempt) < MAXVAL) {
+        while (c == ' ' && c != EOF)
         {
             nspace += 1;
-            if (!((s - temps) % TABSTOP)) {
+            if (!(((t+nspace) - tempt) % tab_stop)) {
                 nspace = 0;
                 ntab += 1;
+                tempt = (t+nspace);
+                tab_stop = (*tab == -999) ? TABSTOP: *tab++;
             }
-            c = *s++;
+            c = getchar();
         }
         while (nspace-- > 0)
             *t++ = ' ';
@@ -60,10 +55,12 @@ void entab() {
         *t++ = c;
 
         if (c == '\n')
-            temps = s;
+            tempt = t;
+    }
+    *t = '\0';
         if ((t - tempt) >= MAXVAL) {
             printf("warning: file was longer than array\n");
             return;
         }
-    }
+    
 }
