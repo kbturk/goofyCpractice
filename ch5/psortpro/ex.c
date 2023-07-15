@@ -12,7 +12,7 @@ char *alloc(int); //return pointer to n characters
 char *lineptr[MAXLINES]; //pointers to text lines
 
 int readlines(char *lineptr[], int nlines);
-void writelines(char *lineptr[], int nlines, int numeric);
+void writelines(char *lineptr[], int nlines);
 
 void qsort2(void *lineptr[], int left, int right,
         int (*comp)(void *, void *));
@@ -31,14 +31,13 @@ int main(int argc, char *argv[]) {
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         qsort2((void **) lineptr, 0, nlines-1,
                 (int (*)(void*, void*))(numeric ? numcmp : strcmp2));
-        writelines(lineptr, nlines, numeric);
+        writelines(lineptr, nlines);
         return 0;
     } else {
         printf("error: input too big to sort\n");
         return 1;
     }
 }
-
 
 //read input
 int readlines(char *lineptr[], int maxlines)
@@ -63,19 +62,15 @@ int readlines(char *lineptr[], int maxlines)
 }
 
 //write output lines
-void writelines(char *lineptr[], int nlines, int numeric) {
-    while (nlines-- > 0) {
-    //    if (numeric)
-    //        printf("%d: %s\n",atof(*lineptr),*lineptr++);
-    //    else
+void writelines(char *lineptr[], int nlines) {
+    while (nlines-- > 0) 
         printf("%s\n", *lineptr++);
-    }
 }
 
+/* qsort: sort v[left]...v[right] into increasing order*/
 void qsort2(void *v[], int left, int right,
         int (*comp)(void *, void *)) {
     int i, last;
-    void swap(void *v[], int i, int j);
 
     if (left >=right) //do nothing if an array contains
         return;       //fewer than two elements
@@ -96,8 +91,6 @@ int numcmp(char *s1, char *s2)
 
     v1 = atof(s1);
     v2 = atof(s2);
-
-    printf("v1: %f, s1: %s\n", v1, s1);
 
     if (v1 < v2)
         return -1;
