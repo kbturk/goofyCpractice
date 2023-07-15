@@ -15,7 +15,7 @@ int readlines(char *lineptr[], int nlines);
 void writelines(char *lineptr[], int nlines);
 
 void qsort2(void *lineptr[], int left, int right,
-        int (*comp)(void *, void *));
+        int (*comp)(void *, void *), int direction);
 void swap(void *v[], int i, int j);
 
 int numcmp(char *, char *);
@@ -24,13 +24,35 @@ int strcmp2(char *, char *);
 /* sort input lines */
 int main(int argc, char *argv[]) {
     int nlines; //number of linput lines read
-    int numeric = 0; //1 if numeric sort
+    int c;
+    int numeric = 0;
+    int direction = 1;
+    int fold = 0;
+    
+        while (--argc && ((*++argv)[0] == '-')) {
+            c = (*argv)[1];
+            switch(c) {
+            case 'n':
+                numeric = 1;
+                break;
+            case 'r':
+                direction = -1;
+                break;
+            case 'f':
+                fold = 1;
+                break;
+            default:
+                printf("could not parse: %s", c);
+                break;
+            }
+        }
 
-    if (argc > 1 && strcmp2(argv[1], "-n") == 0)
-        numeric = 1;
+        printf("numeric: %d, direction: %d\n", numeric, direction);
+
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         qsort2((void **) lineptr, 0, nlines-1,
-                (int (*)(void*, void*))(numeric ? numcmp : strcmp2));
+                (int (*)(void*, void*))(numeric ? numcmp : strcmp2),
+                direction);
         writelines(lineptr, nlines);
         return 0;
     } else {
@@ -67,9 +89,9 @@ void writelines(char *lineptr[], int nlines) {
         printf("%s\n", *lineptr++);
 }
 
-/* qsort: sort v[left]...v[right] into increasing order*/
+/* qsort: sort v[left]...v[right] into order specified by direction*/
 void qsort2(void *v[], int left, int right,
-        int (*comp)(void *, void *)) {
+        int (*comp)(void *, void *), int direction) {
     int i, last;
 
     if (left >=right) //do nothing if an array contains
@@ -77,11 +99,11 @@ void qsort2(void *v[], int left, int right,
     swap(v, left, (left + right)/2);
     last = left;
     for (i = left + 1; i <= right; i++)
-        if ((*comp)(v[i], v[left]) < 0)
+        if (((*comp)(v[i], v[left]))*direction < 0)
             swap(v, ++last, i);
     swap(v, left, last);
-    qsort2(v, left, last -1, comp);
-    qsort2(v, last+1, right, comp);
+    qsort2(v, left, last -1, comp, direction);
+    qsort2(v, last+1, right, comp, direction);
 }
 
 /*numcmp: compare s1 and s2 numerically*/
