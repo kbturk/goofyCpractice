@@ -114,8 +114,8 @@ void qsort2(void *v[], int left, int right,
     swap(v, left, (left + right)/2);
     last = left;
     for (i = left + 1; i <= right; i++) {
-    if (((*comp)(v[i], v[left]))*direction < 0)
-        swap(v, ++last, i);
+        if (((*comp)(v[i], v[left]))*direction < 0)
+            swap(v, ++last, i);
     }
     swap(v, left, last);
     qsort2(v, left, last -1, comp, direction);
@@ -160,14 +160,17 @@ int strcmp3(char *s, char *t)
 }
 
 //directory: only compares letters, numbers, and blanks
-//TODO: add -f flag & figure out how to do a number sort as well.
 int directory(char *s, char *t)
 {
-   for (; (dir_filter(*s) == dir_filter(*t)) ||
-           dir_filter(*s) == 0; s++, t++)
-       if (*s == '\0')
-           return 0;
-   return dir_filter(*s) - dir_filter(*t);
+    int c1, c2;
+
+    if (atof(s) != 0.0 && atof(t) != 0.0)
+        return numcmp(s,t);
+    for (; ((c1 = dir_filter(*s)) == (c2 = dir_filter(*t))); s++, t++)
+        if (c1 == '\0')
+            return 0;
+    
+    return c1 - c2;
 }
 
 void swap(void *v[], int i, int j)
@@ -197,11 +200,12 @@ int tolower(int c)
 
 int dir_filter(int c)
 {
-    if ((c >= 'A' && c <='Z') ||
-            (c >= 'a' && c <= 'z') ||
+    if ((c >= 'a' && c <= 'z') ||
             (c >= '0' && c <= '9') ||
             (c == ' '))
         return c;
+    if (c >= 'A' && c <='Z')
+        return FOLD? tolower(c) : c;
     return 0;
 }
 
