@@ -160,7 +160,7 @@ int strcmp3(char *s, char *t)
 }
 
 //directory: only compares letters, numbers, and blanks
-//TODO: figure out how to do a number sort as well.
+//TODO: add -f flag & figure out how to do a number sort as well.
 int directory(char *s, char *t)
 {
    for (; (dir_filter(*s) == dir_filter(*t)) ||
