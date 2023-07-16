@@ -4,11 +4,11 @@
 * `psort` - sorts text alphabetically
     * use: `a.exe < file`
 
-* `psortpro` - uses pointers to sort lines in text files. There are several flags that can be set:
-    `-n`: numeric sort (will also sort lines)
-    `-r`: reverse sort
-    `-f': case insensitive
-    * use: `a.exe -r -n -f < file`
+* `psortpro` - uses pointers to sort lines in text files. There are several flags that can be set:  
+    `-n`: numeric sort (will also sort lines)  
+    `-r`: reverse sort  
+    `-f`: case insensitive  
+    * use: `a.exe -r -n -f < file`  
 
 * `expr` - command line reverse Polish Notation Calculator
     * use: `a.exe 3 4 +`
