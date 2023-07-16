@@ -21,9 +21,11 @@ void swap(void *v[], int i, int j);
 int numcmp(char *, char *); //sort numbers stored as strings
 int strcmp2(char *, char *); //case sensitive
 int strcmp3(char *s, char *t); //case insensitive
+int directory(char *s, char *t); //makes comparisons only on let, num, blanks
 
 void tolowercase(char *v); //change line to lowercase
 int tolower(int c);
+int dir_filter(int c);
 
 //yep... it's a global
 int FOLD = 0;
@@ -35,6 +37,7 @@ int main(int argc, char *argv[])
     int c;
     int numeric = 0;
     int direction = 1;
+    int dir_sort = 0;
 
     while (--argc && ((*++argv)[0] == '-')) {
         c = (*argv)[1];
@@ -48,6 +51,9 @@ int main(int argc, char *argv[])
             case 'f':
                 FOLD = 1;
                 break;
+            case 'd':
+                dir_sort = 1;
+                break;
             default:
                 printf("could not parse: %s", c);
                 break;
@@ -56,7 +62,9 @@ int main(int argc, char *argv[])
 
     if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
         qsort2((void **) lineptr, 0, nlines-1,
-                (int (*)(void*, void*))(numeric ? numcmp : FOLD? strcmp3: strcmp2),
+                (int (*)(void*, void*))(numeric ? numcmp :
+                    dir_sort? directory :
+                    FOLD? strcmp3: strcmp2),
                 direction);
         writelines(lineptr, nlines);
         return 0;
@@ -151,6 +159,16 @@ int strcmp3(char *s, char *t)
     return tolower(*s) - tolower(*t);
 }
 
+//directory: only compares letters, numbers, and blanks
+//TODO: figure out how to do a number sort as well.
+int directory(char *s, char *t)
+{
+   for (; (dir_filter(*s) == dir_filter(*t)) ||
+           dir_filter(*s) == 0; s++, t++)
+       if (*s == '\0')
+           return 0;
+   return dir_filter(*s) - dir_filter(*t);
+}
 
 void swap(void *v[], int i, int j)
 {
@@ -175,6 +193,16 @@ int tolower(int c)
     if (c >= 'A' && c <= 'Z')
         c = c + 'a' - 'A';
     return c;
+}
+
+int dir_filter(int c)
+{
+    if ((c >= 'A' && c <='Z') ||
+            (c >= 'a' && c <= 'z') ||
+            (c >= '0' && c <= '9') ||
+            (c == ' '))
+        return c;
+    return 0;
 }
 
 int getline(char s[], int lim)

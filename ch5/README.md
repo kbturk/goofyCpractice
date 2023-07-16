@@ -8,6 +8,7 @@
     `-n`: numeric sort (will also sort lines)  
     `-r`: reverse sort  
     `-f`: case insensitive  
+    `-d`: directory only sort: only sorts letters, numbers, and spaces
     * use: `a.exe -r -n -f < file`  
 
 * `expr` - command line reverse Polish Notation Calculator
