@@ -27,6 +27,7 @@ char *l_strdup(char *);
 
 void treeprint(struct tnode *);
 int getword(char *, int);
+int compare_all(char *);
 int getvar(char *, int);
 int getch(void);
 void ungetch(int);
@@ -40,40 +41,86 @@ void ungetch(int);
 
 // count C keywords
 int main() {
-    char word[MAXWORD];
+    char word[MAXWORD], prev[MAXWORD];
     struct tnode *root;
-    int w;
+    int w, next;
 
     root = NULL;
     while (getword(word, MAXWORD) != EOF)
     {
         //check variables when they're declared
         printf("I made it this far: %s\n", word);
-        if (isalnum(word[0]) || word[0] == '#' || word[0] == '*')
+
+        //there's got to be a better way to do this
+        if (strcmp(word, "define") == 0)
         {
-            if (word == "#define")
-                if (getword(word, MAXWORD) != EOF)
-                    root = addtree(root, word);
-            else if (word == "int" ||
-                     word == "struct" || word == "char" ||
-                     word == "string" || word == "float" ||
-                     word == "void")
-                while (getword(word, MAXWORD) != EOF)
-                {
-                    for (int i; i++ < sizeof(word); )
-                    {
-                        if (word[i] == '(')
-                            break;
-                        if (word[i] == ';') {
-                            root = addtree(root, word);
-                            break;
-                        }
-                    }
+            if (getword(word, MAXWORD) != EOF && word[0] != '"'
+                    && word[0] != '\'')
+            {
+                printf("adding: %s\n", word);
+                root = addtree(root, word);
+            }
+        }
+        else if (strcmp(word, "int") == 0 ||
+                strcmp(word, "struct") == 0 ||
+                strcmp(word, "char") == 0 ||
+                strcmp(word, "string") == 0 ||
+                strcmp(word, "float") == 0 ||
+                strcmp(word, "void") == 0
+                )
+        {
+            getword(word, MAXWORD);
+            while (word[0] != EOF)
+            {
+                printf("analyzing: %s\n", word);
+                strcpy(prev, word);
+                next = getword(word, MAXWORD);
+                if (next == ';' ||
+                        next == '{' ||
+                        next == ',' ||
+                        next == '[') {
+                    printf("next was: %c, adding: %s\n", next, prev);
+                    root = addtree(root, prev);
+                    break;
                 }
-         }
+                else if (next == '(' ||
+                        next == '>' ||
+                        next == '<' ||
+                        next == ')' ||
+                        next == '"' ||
+                        next == '(' ||
+                        next == '\'')
+                {
+                    break;
+                }
+            }
+        }
     }
     treeprint(root);
     return 0;
+}
+
+int compare_all(char *w)
+{
+    printf("analyzing: %s\n", w);
+
+    /*
+       printf("%d\n", strcmp(w, "int") == 0);
+       printf("%d\n", strcmp(w, "struct") == 0);
+       printf("%d\n", strcmp(w, "char") == 0);
+       printf("%d\n", strcmp(w, "string") == 0);
+       printf("%d\n", strcmp(w, "float") == 0);
+       printf("%d\n", strcmp(w, "void") == 0);
+       */
+    int temp = (strcmp(w, "int") == 0 ||
+            strcmp(w, "struct") == 0 ||
+            strcmp(w, "char") == 0 ||
+            strcmp(w, "string") == 0 ||
+            strcmp(w, "float") == 0 ||
+            strcmp(w, "void") == 0
+            );
+    printf("overall: %d\n", temp);
+    return temp;
 }
 
 //addtree: add a node with w at or below p. if there's a match, advance count
@@ -159,7 +206,7 @@ int getword(char *word, int lim)
 
     for ( ; --lim > 0; w++)
     {
-        if (!isalnum(*w = getch()) && *w != '#' && *w != ';')
+        if (!isalnum(*w = getch()) && *w != '#')
         {
             ungetch(*w);
             break;
